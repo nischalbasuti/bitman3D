@@ -35,6 +35,8 @@ export default class Player {
     // material.diffuseTexture = new Texture(bitmanStill, scene);
     material.emissiveTexture = new Texture(bitmanStill, scene);
 
+    material.disableLighting = true;
+
     this.mesh.material = material;
   }
 
@@ -76,7 +78,7 @@ export default class Player {
     const pick = Game.getInstance().scene.pickWithRay(
       ray,
       (mesh) => {
-        return mesh instanceof GroundMesh;
+        return mesh != this.mesh;
       },
       true
     );

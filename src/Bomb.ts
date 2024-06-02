@@ -39,6 +39,7 @@ export default class Bomb {
     const texture = new Texture(testFrame, scene);
     const material = new StandardMaterial("bombMaterial", scene);
     material.emissiveTexture = texture;
+    material.disableLighting = true;
 
     this.mesh.material = material;
     // // Create a multi-material
@@ -85,6 +86,7 @@ export default class Bomb {
         // Function to show "Game Over" text
         function showGameOver() {
           gameOverText.isVisible = true;
+          setTimeout(() => gameOverText.isVisible = false, 5000);
         }
 
         setTimeout(showGameOver, 200);

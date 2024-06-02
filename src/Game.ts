@@ -59,12 +59,12 @@ export default class Game {
     // Create a point light
     const pointLight = new PointLight(
       "pointLight",
-      new Vector3(1, 10, 10),
+      new Vector3(10, 20, 10),
       this.scene
     );
-    pointLight.intensity = 0.0;
+    pointLight.intensity = 0.9;
 
-    this.shadowGenerator = new ShadowGenerator(1024, pointLight);
+    this.shadowGenerator = new ShadowGenerator(2048, pointLight);
 
     // Run the render loop
     this.engine.runRenderLoop(() => {
