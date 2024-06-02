@@ -19,7 +19,7 @@ export default class Player {
 
   constructor() {
     const scene = Game.getInstance().scene;
-    this.mesh = MeshBuilder.CreateBox("box", { size: 1 }, scene);
+    this.mesh = MeshBuilder.CreateBox("player", { size: 1 }, scene);
     this.mesh.position.y = 0.5;
 
     this.mesh.physicsImpostor = new PhysicsImpostor(
@@ -31,15 +31,14 @@ export default class Player {
 
     this.playerCamera = new PlayerCamera();
 
-    // this.playerCamera.camera.parent = this.mesh;
-
     const material = new StandardMaterial("playerMaterial", scene);
-    material.diffuseTexture = new Texture(bitmanStill, scene);
+    // material.diffuseTexture = new Texture(bitmanStill, scene);
+    material.emissiveTexture = new Texture(bitmanStill, scene);
 
     this.mesh.material = material;
   }
 
-  private moveMagnitude = 3;
+  private moveMagnitude = 6;
   moveForward() {
     const direction = this.playerCamera.getForward(this.moveMagnitude);
     this.mesh.physicsImpostor?.setLinearVelocity(direction);

@@ -4,8 +4,10 @@ import {
   HemisphericLight,
   PointLight,
   Scene,
+  ShadowGenerator,
   Vector3,
 } from "@babylonjs/core";
+import { AdvancedDynamicTexture } from "@babylonjs/gui";
 import * as CANNON from "cannon-es";
 
 export default class Game {
@@ -22,6 +24,16 @@ export default class Game {
   canvas: HTMLCanvasElement;
   engine: Engine;
   scene: Scene;
+  shadowGenerator: ShadowGenerator;
+
+  private _advancedTexture: AdvancedDynamicTexture;
+  get advancedTexture() {
+    if (!this._advancedTexture) {
+      this._advancedTexture = AdvancedDynamicTexture.CreateFullscreenUI("UI");
+    }
+
+    return this._advancedTexture;
+  }
 
   private constructor() {
     // // Create the canvas HTML element and attach it to the webpage
@@ -35,21 +47,24 @@ export default class Game {
     const cannonPlugin = new CannonJSPlugin(true, 10, CANNON);
     this.scene.enablePhysics(new Vector3(0, -9.81, 0), cannonPlugin);
 
-    // Create a basic light
-    const hemlight = new HemisphericLight(
-      "light",
-      new Vector3(1, 1, 0),
-      this.scene
-    );
-    hemlight.intensity = 0.9;
-
-    // // Create a point light
-    // const pointLight = new PointLight(
-    //   "pointLight",
-    //   new Vector3(1, 10, 1),
+    // // Create a basic light
+    // const hemlight = new HemisphericLight(
+    //   "light",
+    //   new Vector3(1, 1, 0),
     //   this.scene
     // );
-    // pointLight.intensity = 0.4;
+    // hemlight.intensity = 0.4;
+
+
+    // Create a point light
+    const pointLight = new PointLight(
+      "pointLight",
+      new Vector3(1, 10, 10),
+      this.scene
+    );
+    pointLight.intensity = 0.0;
+
+    this.shadowGenerator = new ShadowGenerator(1024, pointLight);
 
     // Run the render loop
     this.engine.runRenderLoop(() => {
@@ -60,5 +75,7 @@ export default class Game {
     window.addEventListener("resize", () => {
       this.engine.resize();
     });
+
+    this._advancedTexture = AdvancedDynamicTexture.CreateFullscreenUI("UI");
   }
 }
