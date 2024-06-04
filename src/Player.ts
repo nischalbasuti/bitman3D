@@ -40,25 +40,31 @@ export default class Player {
     this.mesh.material = material;
   }
 
-  private moveMagnitude = 6;
   moveForward() {
     const direction = this.playerCamera.getForward(this.moveMagnitude);
-    this.mesh.physicsImpostor?.setLinearVelocity(direction);
+    this.move(direction);
   }
 
   moveBackward() {
     const direction = this.playerCamera.getForward(-this.moveMagnitude);
-    this.mesh.physicsImpostor?.setLinearVelocity(direction);
+    this.move(direction);
   }
 
   moveRight() {
     const direction = this.playerCamera.getRight(this.moveMagnitude);
-    this.mesh.physicsImpostor?.setLinearVelocity(direction);
+    this.move(direction);
   }
 
   moveLeft() {
     const direction = this.playerCamera.getRight(-this.moveMagnitude);
-    this.mesh.physicsImpostor?.setLinearVelocity(direction);
+    this.move(direction);
+  }
+
+  private moveMagnitude = 0.3;
+  move(direction: Vector3) {
+    this.mesh.moveWithCollisions(direction);
+    // this.mesh.physicsImpostor?.setLinearVelocity(direction);
+    // this.mesh.physicsImpostor?.applyImpulse(direction, this.mesh.getAbsolutePosition());
   }
 
   jump() {
